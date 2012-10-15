@@ -2,8 +2,8 @@ require 'formula'
 
 class PhpApc < Formula
   homepage 'http://pecl.php.net/package/apc'
-  url 'http://pecl.php.net/get/APC-3.1.11.tgz'
-  sha1 '8518df5d20d2376fbfbdcea92dbe1b2244e4639d'
+  url 'http://pecl.php.net/get/APC-3.1.13.tgz'
+  sha1 'cafd6ba92ac1c9f500a6c1e300bbe8819daddfae'
 end
 
 class PhpIgbinary < Formula
@@ -20,15 +20,17 @@ end
 
 class PhpMemcached < Formula
   homepage 'http://pecl.php.net/package/memcached'
-  url 'http://pecl.php.net/get/memcached-2.0.1.tgz'
-  sha1 '5442250bf4a9754534bce9a3033dc5363d8238f7'
+  url 'http://pecl.php.net/get/memcached-2.1.0.tgz'
+  sha1 '16fac6bfae8ec7e2367fda588b74df88c6f11a8e'
+  
+  depends_on 'libmemcached'
 end
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.4.5.tar.gz'
-  sha1 'e171360168a9c69553ce12a3f6a911709b6b964e'
-  version '5.4.5'
+  url 'http://de.php.net/distributions/php-5.4.7.tar.gz'
+  md5 '94661b761dcfdfdd5108e8b12e0dd4f8'
+  version '5.4.7'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
 
@@ -43,9 +45,10 @@ class Php < Formula
   depends_on 'mcrypt'
   depends_on 'imagemagick'
   #depends_on 'readline'
+  depends_on 'autoconf'
   
   def config_path
-    etc + "php/php.ini"
+    etc + "php"
   end
   
   def install
@@ -60,7 +63,6 @@ class Php < Formula
       "--with-iconv-dir=/usr",
       "--enable-exif",  
       "--enable-soap",
-      "--enable-sqlite-utf8",
       "--enable-sockets",
       "--enable-zip",
       "--enable-shmop",
@@ -90,15 +92,13 @@ class Php < Formula
       "--with-gettext=#{Formula.factory('gettext').prefix}",
       "--with-snmp=/usr",
       "--mandir=#{man}",
-      #"--with-readline=#{Formula.factory('gettext').prefix}",
       "--with-libedit",
       "--enable-ctype",
-      "--enable-zend-multibyte",
       "--with-imagick",
       "--enable-apc",
       "--enable-igbinary",
-      "--enable-http",
-      "--with-http-zlib-compression",
+      #"--enable-http",
+      #"--with-http-zlib-compression",
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysqli=mysqlnd",
       "--with-mysql=mysqlnd",
@@ -106,12 +106,15 @@ class Php < Formula
       "--enable-fpm"
     ]
     
-    PhpApc.new.brew { ext.install Dir['*'] }
-    PhpIgbinary.new.brew { ext.install Dir['*'] }
-    PhpImagick.new.brew { ext.install Dir['*'] }
-    PhpMemcached.new.brew { ext.install Dir['*'] }
+    PhpApc.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'apc/']}] }
+    PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/']}] }
+    PhpImagick.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'imagick/']}] }
+    PhpMemcached.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'memcached/']}] }
     
+    # build new configure to include extensions above
+    system "rm configure"
     system "./buildconf --force"
+    
     system "./configure", *args
     
     system "make"
@@ -120,8 +123,5 @@ class Php < Formula
     
     config_path.install "./php.ini-development" => "php.ini" unless File.exists? config_path + "php.ini"
     config_path.install "sapi/fpm/php-fpm.conf" unless File.exists? config_path + "php-fpm.conf"
-  end
-
-  def test
   end
 end
