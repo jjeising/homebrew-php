@@ -1,10 +1,10 @@
 require 'formula'
 
-class PhpApc < Formula
-  homepage 'http://pecl.php.net/package/apc'
-  url 'http://pecl.php.net/get/APC-3.1.13.tgz'
-  sha1 'cafd6ba92ac1c9f500a6c1e300bbe8819daddfae'
-end
+# class PhpApc < Formula
+  # homepage 'http://pecl.php.net/package/apc'
+  # url 'http://pecl.php.net/get/APC-3.1.13.tgz'
+  # sha1 'cafd6ba92ac1c9f500a6c1e300bbe8819daddfae'
+# end
 
 class PhpIgbinary < Formula
   homepage 'http://pecl.php.net/package/igbinary'
@@ -22,21 +22,29 @@ class PhpMemcached < Formula
   homepage 'http://pecl.php.net/package/memcached'
   url 'http://pecl.php.net/get/memcached-2.1.0.tgz'
   sha1 '16fac6bfae8ec7e2367fda588b74df88c6f11a8e'
-  
-  depends_on 'libmemcached'
+end
+
+class PhpSsh2 < Formula
+  homepage ''
+  url 'http://pecl.php.net/get/ssh2-0.12.tgz'
+  sha1 'b86a25bdd3f3558bbcaaa6d876309fbbb5ae134d'
+end
+
+class PhpZmq < Formula
+  homepage 'https://github.com/mkoppanen/php-zmq'
+  url 'https://github.com/mkoppanen/php-zmq/archive/1.0.5.zip'
+  sha1 '4ae577ef0c3b9f54e5d18b0bc3c1db4616c17cfc'
 end
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.4.7.tar.gz'
-  md5 '94661b761dcfdfdd5108e8b12e0dd4f8'
-  version '5.4.7'
+  url 'http://de.php.net/distributions/php-5.5.2.tar.bz2'
+  sha1 '94f42a7807ae21b3a547bf69310dc454f613fe1f'
+  version '5.5.2'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
-
-  # So PHP extensions don't report missing symbols
-  skip_clean ['bin', 'sbin']
-
+  
+  depends_on 'pkg-config' => :build
   depends_on 'gettext'
   depends_on 'icu4c'
   depends_on 'imap-uw'
@@ -44,8 +52,13 @@ class Php < Formula
   depends_on 'libxml2'
   depends_on 'mcrypt'
   depends_on 'imagemagick'
-  #depends_on 'readline'
   depends_on 'autoconf'
+  depends_on 'zeromq'
+  
+  # mysql/pgsql dependencies?
+  
+  depends_on 'libmemcached'
+  depends_on 'libssh2'
   
   def config_path
     etc + "php"
@@ -95,21 +108,27 @@ class Php < Formula
       "--with-libedit",
       "--enable-ctype",
       "--with-imagick",
-      "--enable-apc",
+      # "--enable-apc",
       "--enable-igbinary",
+      "--with-ssh2",
       #"--enable-http",
       #"--with-http-zlib-compression",
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysqli=mysqlnd",
       "--with-mysql=mysqlnd",
       "--with-pdo-mysql=mysqlnd",
-      "--enable-fpm"
+      "--with-pdo-pgsql",
+      "--enable-fpm",
+      "--with-zmq",
+      "--enable-pcntl"
     ]
     
-    PhpApc.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'apc/']}] }
-    PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/']}] }
-    PhpImagick.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'imagick/']}] }
-    PhpMemcached.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'memcached/']}] }
+    # PhpApc.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'apc/'] if File.directory? x}] }
+    PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/']  if File.directory? x}] }
+    PhpImagick.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'imagick/'] if File.directory? x}] }
+    PhpMemcached.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'memcached/'] if File.directory? x}] }
+    PhpSsh2.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'ssh2/'] if File.directory? x}] }
+    PhpZmq.new.brew { (ext/'zmq').install Dir['*'] }
     
     # build new configure to include extensions above
     system "rm configure"
@@ -118,7 +137,7 @@ class Php < Formula
     system "./configure", *args
     
     system "make"
-    ENV.deparallelize # parallel install fails on some systems
+    #ENV.deparallelize # parallel install fails on some systems
     system "make install"
     
     config_path.install "./php.ini-development" => "php.ini" unless File.exists? config_path + "php.ini"
