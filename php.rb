@@ -1,11 +1,5 @@
 require 'formula'
 
-# class PhpApc < Formula
-  # homepage 'http://pecl.php.net/package/apc'
-  # url 'http://pecl.php.net/get/APC-3.1.13.tgz'
-  # sha1 'cafd6ba92ac1c9f500a6c1e300bbe8819daddfae'
-# end
-
 class PhpIgbinary < Formula
   homepage 'http://pecl.php.net/package/igbinary'
   url 'http://pecl.php.net/get/igbinary-1.1.1.tgz'
@@ -32,19 +26,20 @@ end
 
 class PhpZmq < Formula
   homepage 'https://github.com/mkoppanen/php-zmq'
-  url 'https://github.com/mkoppanen/php-zmq/archive/1.0.5.zip'
-  sha1 '4ae577ef0c3b9f54e5d18b0bc3c1db4616c17cfc'
+  url 'https://github.com/mkoppanen/php-zmq/archive/1.0.6.tar.gz'
+  sha1 '7754db7e69d881aa76c8493f35e84513f1b465f0'
 end
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.5.2.tar.bz2'
-  sha1 '94f42a7807ae21b3a547bf69310dc454f613fe1f'
-  version '5.5.2'
+  url 'http://de.php.net/distributions/php-5.5.3.tar.gz'
+  sha1 '2f041fb9662be0f6b62c137c4b3dd0dc797d0c25'
+  version '5.5.3'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
   depends_on 'pkg-config' => :build
+  
   depends_on 'gettext'
   depends_on 'icu4c'
   depends_on 'imap-uw'
@@ -108,11 +103,8 @@ class Php < Formula
       "--with-libedit",
       "--enable-ctype",
       "--with-imagick",
-      # "--enable-apc",
       "--enable-igbinary",
       "--with-ssh2",
-      #"--enable-http",
-      #"--with-http-zlib-compression",
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysqli=mysqlnd",
       "--with-mysql=mysqlnd",
@@ -123,7 +115,6 @@ class Php < Formula
       "--enable-pcntl"
     ]
     
-    # PhpApc.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'apc/'] if File.directory? x}] }
     PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/']  if File.directory? x}] }
     PhpImagick.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'imagick/'] if File.directory? x}] }
     PhpMemcached.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'memcached/'] if File.directory? x}] }
@@ -137,7 +128,8 @@ class Php < Formula
     system "./configure", *args
     
     system "make"
-    #ENV.deparallelize # parallel install fails on some systems
+    
+    ENV.deparallelize
     system "make install"
     
     config_path.install "./php.ini-development" => "php.ini" unless File.exists? config_path + "php.ini"
