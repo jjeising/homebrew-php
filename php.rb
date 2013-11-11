@@ -1,5 +1,11 @@
 require 'formula'
 
+class PhpApcu < Formula
+  homepage 'https://github.com/krakjoe/apcu'
+  url 'http://pecl.php.net/get/apcu-4.0.2.tgz'
+  sha1 'dd8a2ed00304501318f678a7f5b7364af4fc7dcf'
+end
+
 class PhpIgbinary < Formula
   homepage 'http://pecl.php.net/package/igbinary'
   url 'http://pecl.php.net/get/igbinary-1.1.1.tgz'
@@ -8,8 +14,8 @@ end
 
 class PhpImagick < Formula
   homepage 'http://pecl.php.net/package/imagick'
-  url 'http://pecl.php.net/get/imagick-3.1.0RC2.tgz'
-  sha1 '29b6dcd534cde6b37ebe3ee5077b71a9eed685c2'
+  url 'http://pecl.php.net/get/imagick-3.1.2.tgz'
+  sha1 '7cee88bc8f6f178165c9d43e302d99cedfbb3dff'
 end
 
 class PhpMemcached < Formula
@@ -26,14 +32,14 @@ end
 
 class PhpZmq < Formula
   homepage 'https://github.com/mkoppanen/php-zmq'
-  url 'https://github.com/mkoppanen/php-zmq/archive/1.0.6.tar.gz'
-  sha1 '7754db7e69d881aa76c8493f35e84513f1b465f0'
+  url 'http://pecl.php.net/get/zmq-1.1.1.tgz'
+  sha1 ''
 end
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.5.4.tar.gz'
-  sha1 '46650c06dc8865f3ac7e5f615a7b0b6a2da4b268'
+  url 'http://de.php.net/distributions/php-5.5.5.tar.gz'
+  sha1 'f08e6c2a5e1e171c1808ba2da8b8102a778f0690'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
@@ -101,6 +107,7 @@ class Php < Formula
       "--mandir=#{man}",
       "--with-libedit",
       "--enable-ctype",
+      "--enable-apcu",
       "--with-imagick",
       "--enable-igbinary",
       "--with-ssh2",
@@ -114,7 +121,8 @@ class Php < Formula
       "--enable-pcntl"
     ]
     
-    PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/']  if File.directory? x}] }
+    PhpApcu.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'apcu/'] if File.directory? x}] }
+    PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/'] if File.directory? x}] }
     PhpImagick.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'imagick/'] if File.directory? x}] }
     PhpMemcached.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'memcached/'] if File.directory? x}] }
     PhpSsh2.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'ssh2/'] if File.directory? x}] }
