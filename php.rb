@@ -36,6 +36,13 @@ class PhpXdiff < Formula
   sha1 '5baa9716fc951d2e3f4e8e73b491493f7d3c3c80'
 end
 
+
+class PhpXhprof < Formula
+  homepage 'http://pecl.php.net/package/xhprof'
+  url 'http://pecl.php.net/get/xhprof-0.9.4.tgz'
+  sha1 '1dfd36dd6f85accc64060e4b52bf17bc4c85e694'
+end
+
 class PhpZmq < Formula
   homepage 'https://github.com/mkoppanen/php-zmq'
   url 'http://pecl.php.net/get/zmq-1.1.1.tgz'
@@ -44,8 +51,8 @@ end
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.5.8.tar.gz'
-  sha1 '19af9180c664c4b8f6c46fc10fbad9f935e07b52'
+  url 'http://de.php.net/distributions/php-5.5.9.tar.gz'
+  sha1 '378de162efdaeeb725ed38d7fe956c9f0b9084ff'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
@@ -102,6 +109,7 @@ class Php < Formula
       "--enable-sysvmsg",
       "--enable-sysvsem",
       "--enable-sysvshm",
+      "--enable-xhprof",
       "--enable-zend-signals",
       "--enable-zip",
       "--with-bz2=/usr",
@@ -133,13 +141,14 @@ class Php < Formula
       "--with-zmq"
     ]
     
-    PhpApcu.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'apcu/'] if File.directory? x}] }
-    PhpIgbinary.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'igbinary/'] if File.directory? x}] }
-    PhpImagick.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'imagick/'] if File.directory? x}] }
-    PhpMemcached.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'memcached/'] if File.directory? x}] }
-    PhpSsh2.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'ssh2/'] if File.directory? x}] }
-    PhpXdiff.new.brew { ext.install Hash[Dir['*'].map {|x| [x, 'xdiff/'] if File.directory? x}] }
-    PhpZmq.new.brew { (ext/'zmq').install Dir['*'] }
+    PhpApcu.new.brew { (ext/'apcu').install Dir['apcu*/*'] }
+    PhpIgbinary.new.brew { (ext/'igbinary').install Dir['igbinary*/*'] }
+    PhpImagick.new.brew { (ext/'imagick').install Dir['imagick*/*'] }
+    PhpMemcached.new.brew { (ext/'memcached').install Dir['memcached*/*'] }
+    PhpSsh2.new.brew { (ext/'ssh2').install Dir['ssh2*/*'] }
+    PhpXdiff.new.brew { (ext/'xdiff').install Dir['xdiff*/*'] }
+    PhpXhprof.new.brew { (ext/'xhprof').install Dir['xhprof*/extension/*'] }
+    PhpZmq.new.brew { (ext/'zmq').install Dir['zmq*/*'] }
     
     system "rm configure"
     system "./buildconf --force"
