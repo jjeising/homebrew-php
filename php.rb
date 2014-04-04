@@ -51,8 +51,8 @@ end
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.5.9.tar.gz'
-  sha1 '378de162efdaeeb725ed38d7fe956c9f0b9084ff'
+  url 'http://de.php.net/distributions/php-5.5.11.tar.gz'
+  sha1 '3ad9c5b66c4b52aab9898b364899e8cf242c32f8'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
