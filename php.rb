@@ -36,17 +36,16 @@ class PhpXdiff < Formula
   sha1 '5baa9716fc951d2e3f4e8e73b491493f7d3c3c80'
 end
 
+class PhpXhp < Formula
+  homepage 'https://github.com/facebook/xhp'
+  url 'https://github.com/facebook/xhp/archive/1.4.tar.gz'
+  sha1 '6004408583ecc109060321be546b20e85ad36263'
+end
 
 class PhpXhprof < Formula
   homepage 'http://pecl.php.net/package/xhprof'
   url 'http://pecl.php.net/get/xhprof-0.9.4.tgz'
   sha1 '1dfd36dd6f85accc64060e4b52bf17bc4c85e694'
-end
-
-class PhpZmq < Formula
-  homepage 'https://github.com/mkoppanen/php-zmq'
-  url 'http://pecl.php.net/get/zmq-1.1.1.tgz'
-  sha1 '835e8a23ef465ce2b404417bba05b27db425eec0'
 end
 
 class Php < Formula
@@ -75,6 +74,9 @@ class Php < Formula
   
   depends_on 'libmemcached'
   depends_on 'libssh2'
+  
+  # XHP dependency
+  depends_on 're2c'
   
   def config_path
     etc + "php"
@@ -109,6 +111,7 @@ class Php < Formula
       "--enable-sysvmsg",
       "--enable-sysvsem",
       "--enable-sysvshm",
+      "--enable-xhp",
       "--enable-xhprof",
       "--enable-zend-signals",
       "--enable-zip",
@@ -137,8 +140,7 @@ class Php < Formula
       "--with-xdiff",
       "--with-xmlrpc",
       "--with-xsl=/usr",
-      "--with-zlib=/usr",
-      "--with-zmq"
+      "--with-zlib=/usr"
     ]
     
     PhpApcu.new.brew { (ext/'apcu').install Dir['apcu*/*'] }
@@ -148,7 +150,7 @@ class Php < Formula
     PhpSsh2.new.brew { (ext/'ssh2').install Dir['ssh2*/*'] }
     PhpXdiff.new.brew { (ext/'xdiff').install Dir['xdiff*/*'] }
     PhpXhprof.new.brew { (ext/'xhprof').install Dir['xhprof*/extension/*'] }
-    PhpZmq.new.brew { (ext/'zmq').install Dir['zmq*/*'] }
+    PhpXhp.new.brew { (ext/'xhp').install Dir['*'] }
     
     system "rm configure"
     system "./buildconf --force"
