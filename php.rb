@@ -76,7 +76,7 @@ class Php < Formula
   depends_on 'libssh2'
   
   # XHP dependency
-  depends_on 're2c'
+  # depends_on 're2c'
   
   def config_path
     etc + "php"
@@ -111,7 +111,7 @@ class Php < Formula
       "--enable-sysvmsg",
       "--enable-sysvsem",
       "--enable-sysvshm",
-      "--enable-xhp",
+      # "--enable-xhp",
       "--enable-xhprof",
       "--enable-zend-signals",
       "--enable-zip",
@@ -150,7 +150,7 @@ class Php < Formula
     PhpSsh2.new.brew { (ext/'ssh2').install Dir['ssh2*/*'] }
     PhpXdiff.new.brew { (ext/'xdiff').install Dir['xdiff*/*'] }
     PhpXhprof.new.brew { (ext/'xhprof').install Dir['xhprof*/extension/*'] }
-    PhpXhp.new.brew { (ext/'xhp').install Dir['*'] }
+    # PhpXhp.new.brew { (ext/'xhp').install Dir['*'] }
     
     system "rm configure"
     system "./buildconf --force"
