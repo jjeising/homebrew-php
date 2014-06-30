@@ -1,53 +1,5 @@
 require 'formula'
 
-class PhpApcu < Formula
-  homepage 'https://github.com/krakjoe/apcu'
-  url 'http://pecl.php.net/get/apcu-4.0.2.tgz'
-  sha1 'dd8a2ed00304501318f678a7f5b7364af4fc7dcf'
-end
-
-class PhpIgbinary < Formula
-  homepage 'http://pecl.php.net/package/igbinary'
-  url 'http://pecl.php.net/get/igbinary-1.1.1.tgz'
-  sha1 'cebe34d18dd167a40a712a6826415e3e5395ab27'
-end
-
-class PhpImagick < Formula
-  homepage 'http://pecl.php.net/package/imagick'
-  url 'http://pecl.php.net/get/imagick-3.1.2.tgz'
-  sha1 '7cee88bc8f6f178165c9d43e302d99cedfbb3dff'
-end
-
-class PhpMemcached < Formula
-  homepage 'http://pecl.php.net/package/memcached'
-  url 'http://pecl.php.net/get/memcached-2.1.0.tgz'
-  sha1 '16fac6bfae8ec7e2367fda588b74df88c6f11a8e'
-end
-
-class PhpSsh2 < Formula
-  homepage 'http://pecl.php.net/package/ssh2'
-  url 'http://pecl.php.net/get/ssh2-0.12.tgz'
-  sha1 'b86a25bdd3f3558bbcaaa6d876309fbbb5ae134d'
-end
-
-class PhpXdiff < Formula
-  homepage 'http://pecl.php.net/package/xdiff'
-  url 'http://pecl.php.net/get/xdiff-1.5.2.tgz'
-  sha1 '5baa9716fc951d2e3f4e8e73b491493f7d3c3c80'
-end
-
-class PhpXhp < Formula
-  homepage 'https://github.com/facebook/xhp'
-  url 'https://github.com/facebook/xhp/archive/1.4.tar.gz'
-  sha1 '6004408583ecc109060321be546b20e85ad36263'
-end
-
-class PhpXhprof < Formula
-  homepage 'http://pecl.php.net/package/xhprof'
-  url 'http://pecl.php.net/get/xhprof-0.9.4.tgz'
-  sha1 '1dfd36dd6f85accc64060e4b52bf17bc4c85e694'
-end
-
 class Php < Formula
   homepage 'http://php.net/'
   url 'http://de.php.net/distributions/php-5.5.14.tar.gz'
@@ -78,13 +30,51 @@ class Php < Formula
   # XHP dependency
   # depends_on 're2c'
   
+  resource 'apcu' do
+    url 'http://pecl.php.net/get/apcu-4.0.6.tgz'
+    sha1 'f4841f20b333638381b3180ffa1f66b69de1de0f'
+  end
+  
+  resource 'igbinary' do
+    url 'http://pecl.php.net/get/igbinary-1.1.1.tgz'
+    sha1 'cebe34d18dd167a40a712a6826415e3e5395ab27'
+  end
+  
+  resource 'imagick' do
+    url 'http://pecl.php.net/get/imagick-3.1.2.tgz'
+    sha1 '7cee88bc8f6f178165c9d43e302d99cedfbb3dff'
+  end
+  
+  resource 'memcached' do
+    url 'http://pecl.php.net/get/memcached-2.2.0.tgz'
+    sha1 '402d7c4841885bb1d23094693f4051900f8f40a8'
+  end
+  
+  resource 'ssh2' do
+    url 'http://pecl.php.net/get/ssh2-0.12.tgz'
+    sha1 'b86a25bdd3f3558bbcaaa6d876309fbbb5ae134d'
+  end
+  
+  resource 'xdiff' do
+    url 'http://pecl.php.net/get/xdiff-1.5.2.tgz'
+    sha1 '5baa9716fc951d2e3f4e8e73b491493f7d3c3c80'
+  end
+  
+  resource 'xhp' do
+    url 'https://github.com/facebook/xhp/archive/1.5.zip'
+    sha1 'b7df94608da6ae84b0f68e8e986f586f49f5851e'
+  end
+  
+  resource 'xhprof' do
+    url 'http://pecl.php.net/get/xhprof-0.9.4.tgz'
+    sha1 '1dfd36dd6f85accc64060e4b52bf17bc4c85e694'
+  end
+  
   def config_path
     etc + "php"
   end
   
   def install
-    ext = Pathname.new(pwd) + 'ext/'
-    
     args = [
       "--localstatedir=#{var}",
       "--mandir=#{man}",
@@ -143,14 +133,15 @@ class Php < Formula
       "--with-zlib=/usr"
     ]
     
-    PhpApcu.new.brew { (ext/'apcu').install Dir['apcu*/*'] }
-    PhpIgbinary.new.brew { (ext/'igbinary').install Dir['igbinary*/*'] }
-    PhpImagick.new.brew { (ext/'imagick').install Dir['imagick*/*'] }
-    PhpMemcached.new.brew { (ext/'memcached').install Dir['memcached*/*'] }
-    PhpSsh2.new.brew { (ext/'ssh2').install Dir['ssh2*/*'] }
-    PhpXdiff.new.brew { (ext/'xdiff').install Dir['xdiff*/*'] }
-    PhpXhprof.new.brew { (ext/'xhprof').install Dir['xhprof*/extension/*'] }
-    # PhpXhp.new.brew { (ext/'xhp').install Dir['*'] }
+    ext = Pathname.new(pwd) + 'ext/'
+    res = %w(apcu igbinary imagick memcached ssh2 xdiff)
+    
+    res.each do |r|
+      resource(r).stage { (ext/r).install Dir["#{r}*/*"] }
+    end
+    
+    resource("xhprof").stage { (ext/"xhprof").install Dir["xhprof*/extension/*"] }
+    # resource("xhp").stage { (ext/"xhp").install Dir["*"] }
     
     system "rm configure"
     system "./buildconf --force"
