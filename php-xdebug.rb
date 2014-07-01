@@ -2,8 +2,8 @@ require 'formula'
 
 class PhpXdebug < Formula
   homepage 'http://xdebug.org/'
-  url 'http://xdebug.org/files/xdebug-2.2.3.tgz'
-  sha1 '045dee86f69051d7944da594db648b337a97f48a'
+  url 'http://xdebug.org/files/xdebug-2.2.5.tgz'
+  sha1 '62d388e07a45cab9eee498e7905c92a7e5d023cc'
 
   depends_on 'php'
 
