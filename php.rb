@@ -2,8 +2,8 @@ require 'formula'
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://de.php.net/distributions/php-5.5.14.tar.gz'
-  sha1 'be2e4bf894952760275fe59a0390c6976a17a82e'
+  url 'http://de.php.net/distributions/php-5.5.15.tar.gz'
+  sha1 'd9df11b97a9f1c686194e91165602f47e3bd74e6'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
