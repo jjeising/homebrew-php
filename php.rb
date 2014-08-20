@@ -93,6 +93,7 @@ class Php < Formula
       "--enable-fpm",
       "--enable-gd-native-ttf",
       "--enable-igbinary",
+      "--enable-intl",
       "--enable-mbstring",
       "--enable-pcntl",
       "--enable-shmop",
