@@ -111,6 +111,7 @@ class Php < Formula
       "--with-freetype-dir=#{Formula.factory('freetype').prefix}",
       "--with-gd",
       "--with-gettext=#{Formula.factory('gettext').prefix}",
+      "--with-gmp",
       "--with-iconv-dir=/usr",
       "--with-imagick",
       "--with-jpeg-dir=#{Formula.factory('jpeg').prefix}",
