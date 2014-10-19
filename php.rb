@@ -20,6 +20,7 @@ class Php < Formula
   depends_on 'libxdiff'
   depends_on 'libxml2'
   depends_on 'mcrypt'
+  depends_on 'openssl'
   depends_on 'zeromq'
   
   # mysql/pgsql dependencies?
@@ -123,7 +124,7 @@ class Php < Formula
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysql=mysqlnd",
       "--with-mysqli=mysqlnd",
-      "--with-openssl=/usr",
+      "--with-openssl=#{Formula.factory('openssl').prefix}",
       "--with-pdo-mysql=mysqlnd",
       "--with-pdo-pgsql",
       "--with-png-dir=/usr/X11",
