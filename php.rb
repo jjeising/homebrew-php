@@ -2,14 +2,13 @@ require 'formula'
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://php.net/distributions/php-5.6.2.tar.gz'
-  sha1 '4a1f11967bd0aa6a470914c030059a797719e09d'
+  url 'http://php.net/distributions/php-5.6.3.tar.gz'
+  sha1 'd22818e06441b5de527953bb89a123797eae1931'
   
   head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
   depends_on 'pkg-config' => :build
   
-  depends_on 'autoconf'
   depends_on 'curl'
   depends_on 'freetype'
   depends_on 'gettext'
@@ -17,16 +16,17 @@ class Php < Formula
   depends_on 'imagemagick'
   depends_on 'imap-uw'
   depends_on 'jpeg'
+  depends_on 'libmemcached'
+  depends_on 'libssh2'
   depends_on 'libxdiff'
   depends_on 'libxml2'
   depends_on 'mcrypt'
+  # depends_on 'net-snmp'
   depends_on 'openssl'
   depends_on 'zeromq'
+  depends_on 'autoconf'
   
   # mysql/pgsql dependencies?
-  
-  depends_on 'libmemcached'
-  depends_on 'libssh2'
   
   # XHP dependency
   # depends_on 're2c'
@@ -51,6 +51,11 @@ class Php < Formula
     sha1 '402d7c4841885bb1d23094693f4051900f8f40a8'
   end
   
+  #resource 'msgpack' do
+  #  url 'http://pecl.php.net/get/msgpack-0.5.5.tgz'
+  #  sha1 '67c83c359619e8f7f153a83bdf3708c5ff39e491'
+  #end
+  
   resource 'ssh2' do
     url 'http://pecl.php.net/get/ssh2-0.12.tgz'
     sha1 'b86a25bdd3f3558bbcaaa6d876309fbbb5ae134d'
@@ -61,10 +66,10 @@ class Php < Formula
     sha1 '5baa9716fc951d2e3f4e8e73b491493f7d3c3c80'
   end
   
-  resource 'xhp' do
-    url 'https://github.com/facebook/xhp/archive/1.5.zip'
-    sha1 'b7df94608da6ae84b0f68e8e986f586f49f5851e'
-  end
+  #resource 'xhp' do
+  #  url 'https://github.com/facebook/xhp/archive/1.5.zip'
+  #  sha1 'b7df94608da6ae84b0f68e8e986f586f49f5851e'
+  #end
   
   resource 'xhprof' do
     url 'http://pecl.php.net/get/xhprof-0.9.4.tgz'
@@ -96,6 +101,10 @@ class Php < Formula
       "--enable-igbinary",
       "--enable-intl",
       "--enable-mbstring",
+      "--enable-memcached",
+      "--enable-memcached-igbinary",
+      "--enable-memcached-json",
+      # "--enable-memcached-msgpack",
       "--enable-pcntl",
       "--enable-shmop",
       "--enable-soap",
@@ -121,6 +130,7 @@ class Php < Formula
       "--with-libedit",
       "--with-libxml-dir=#{Formula.factory('libxml2').prefix}",
       "--with-mcrypt=#{Formula.factory('mcrypt').prefix}",
+      # "--with-msgpack",
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysql=mysqlnd",
       "--with-mysqli=mysqlnd",
@@ -128,7 +138,7 @@ class Php < Formula
       "--with-pdo-mysql=mysqlnd",
       "--with-pdo-pgsql",
       "--with-png-dir=/usr/X11",
-      "--with-snmp=/usr",
+      # "--with-snmp=#{Formula.factory('net-snmp').prefix}",
       "--with-ssh2",
       "--with-xdiff",
       "--with-xmlrpc",
@@ -136,11 +146,10 @@ class Php < Formula
       "--with-zlib=/usr"
     ]
     
-    ext = Pathname.new(pwd) + 'ext/'
-    res = %w(apcu igbinary imagick memcached ssh2 xdiff)
+    ext = Pathname.new(pwd) + "ext/"
     
-    res.each do |r|
-      resource(r).stage { (ext/r).install Dir["#{r}*/*"] }
+    resources.each do |r|
+      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless r.name == "xhprof"
     end
     
     resource("xhprof").stage { (ext/"xhprof").install Dir["xhprof*/extension/*"] }
