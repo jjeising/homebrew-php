@@ -3,10 +3,10 @@ require 'formula'
 class Php < Formula
   homepage 'http://php.net/'
   
-  head 'https://svn.php.net/repository/php/php-src/trunk', :using => :svn
   
   url 'http://php.net/distributions/php-5.6.5.tar.gz'
   sha1 '7adaa68b2fc2d6827e65f18d19471def708ecd9d'
+  head 'https://git.php.net/repository/php-src.git'
   depends_on 'pkg-config' => :build
   
   depends_on 'curl'
