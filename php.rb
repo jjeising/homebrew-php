@@ -20,7 +20,6 @@ class Php < Formula
   depends_on 'libssh2'
   depends_on 'libxdiff'
   depends_on 'libxml2'
-  depends_on 'mcrypt'
   # depends_on 'net-snmp'
   depends_on 'openssl'
   depends_on 'zeromq'
@@ -129,7 +128,6 @@ class Php < Formula
       "--with-ldap-sasl=/usr",
       "--with-libedit",
       "--with-libxml-dir=#{Formula.factory('libxml2').prefix}",
-      "--with-mcrypt=#{Formula.factory('mcrypt').prefix}",
       # "--with-msgpack",
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysql=mysqlnd",
