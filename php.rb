@@ -21,7 +21,7 @@ class Php < Formula
   depends_on 'libssh2'
   depends_on 'libxdiff'
   depends_on 'libxml2'
-  # depends_on 'net-snmp'
+  depends_on 'net-snmp'
   depends_on 'openssl'
   depends_on 'zeromq'
 
@@ -127,7 +127,7 @@ class Php < Formula
       "--with-pdo-mysql=mysqlnd",
       "--with-pdo-pgsql",
       "--with-png-dir=/usr/X11",
-      # "--with-snmp=#{Formula.factory('net-snmp').prefix}",
+      "--with-snmp=#{Formula.factory('net-snmp').prefix}",
       "--with-ssh2",
       "--with-xdiff",
       "--with-xmlrpc",
