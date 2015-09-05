@@ -1,12 +1,11 @@
-require 'formula'
-
 # via josegonzalez/homebrew-php
 class Composer < Formula
-  homepage 'http://getcomposer.org'
-  url 'http://getcomposer.org/download/1.0.0-alpha10/composer.phar'
-  sha256 '9f2c7d0364bc743bcde9cfe1fe84749e5ac38c46d47cf42966ce499135fd4628'
-  version '1.0.0-alpha10'
-  
+  desc "Dependency Manager for PHP"
+  homepage "http://getcomposer.org"
+  url "http://getcomposer.org/download/1.0.0-alpha10/composer.phar"
+  version "1.0.0-alpha10"
+  sha256 "9f2c7d0364bc743bcde9cfe1fe84749e5ac38c46d47cf42966ce499135fd4628"
+
   def install
     libexec.install "composer.phar"
     sh = libexec + "composer"
