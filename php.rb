@@ -2,8 +2,8 @@ require 'formula'
 
 class Php < Formula
   homepage 'http://php.net/'
-  url 'http://php.net/distributions/php-5.6.10.tar.gz'
-  sha256 '7759d6e178be524085e1482921748c14d11cbd0a133ba8aabb96c391ce7ed3fc'
+  url 'http://php.net/distributions/php-5.6.13.tar.gz'
+  sha256 '92acc6c067f5e015a6881b4119eafec10eca11722e810f2c2083f72e17119bcf'
 
   head 'https://git.php.net/repository/php-src.git'
 
