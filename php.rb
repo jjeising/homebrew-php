@@ -16,11 +16,14 @@ class Php < Formula
   depends_on "imagemagick"
   depends_on "imap-uw"
   depends_on "jpeg"
+  depends_on "libiconv"
   depends_on "libmemcached"
   depends_on "libssh2"
   depends_on "libxdiff"
   depends_on "libxml2"
+  depends_on "libxslt"
   depends_on "net-snmp"
+  depends_on "openldap"
   depends_on "openssl"
   depends_on "zeromq"
 
@@ -105,18 +108,18 @@ class Php < Formula
       "--enable-xhprof",
       "--enable-zend-signals",
       "--enable-zip",
-      "--with-bz2=/usr",
+      "--with-bz2=#{MacOS.sdk_path}/usr",
       "--with-curl=#{Formula["curl"].prefix}",
       "--with-freetype-dir=#{Formula["freetype"].prefix}",
       "--with-gd",
       "--with-gettext=#{Formula["gettext"].prefix}",
       "--with-gmp",
-      "--with-iconv-dir=/usr",
+      "--with-iconv=#{Formula["libiconv"].prefix}",
       "--with-imagick",
       "--with-jpeg-dir=#{Formula["jpeg"].prefix}",
-      "--with-ldap",
-      "--with-ldap-sasl=/usr",
-      "--with-libedit",
+      "--with-ldap=#{Formula["openldap"].prefix}",
+      "--with-ldap-sasl=#{MacOS.sdk_path}/usr",
+      "--with-libedit=#{MacOS.sdk_path}/usr",
       "--with-libxml-dir=#{Formula["libxml2"].prefix}",
       # "--with-msgpack",
       "--with-mysql-sock=/tmp/mysql.sock",
@@ -125,13 +128,13 @@ class Php < Formula
       "--with-openssl=#{Formula["openssl"].prefix}",
       "--with-pdo-mysql=mysqlnd",
       "--with-pdo-pgsql",
-      "--with-png-dir=/usr/X11",
+      "--with-png-dir=#{MacOS.sdk_path}/usr",
       "--with-snmp=#{Formula["net-snmp"].prefix}",
       "--with-ssh2",
       "--with-xdiff",
       "--with-xmlrpc",
-      "--with-xsl=/usr",
-      "--with-zlib=/usr"
+      "--with-xsl=#{Formula["libxslt"].prefix}",
+      "--with-zlib=#{MacOS.sdk_path}/usr"
     ]
 
     ext = Pathname.new(pwd) + "ext/"
