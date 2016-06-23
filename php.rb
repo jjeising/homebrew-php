@@ -31,46 +31,46 @@ class Php < Formula
 
   resource "apcu" do
     url "http://pecl.php.net/get/apcu-4.0.6.tgz"
-    sha1 "f4841f20b333638381b3180ffa1f66b69de1de0f"
+    sha256 "4c757df0b90e855a1f9cf160d8d697f53f74e60f44bd93080cfb12f838d1027e"
   end
 
   resource "igbinary" do
     url "http://pecl.php.net/get/igbinary-1.1.1.tgz"
-    sha1 "cebe34d18dd167a40a712a6826415e3e5395ab27"
+    sha256 "b84158410bde9db42e7a96c4e947da4569519ab4e7e19a5e3d1db698aac94101"
   end
 
   resource "imagick" do
     url "http://pecl.php.net/get/imagick-3.1.2.tgz"
-    sha1 "7cee88bc8f6f178165c9d43e302d99cedfbb3dff"
+    sha256 "528769ac304a0bbe9a248811325042188c9d16e06de16f111fee317c85a36c93"
   end
 
   resource "memcached" do
     url "http://pecl.php.net/get/memcached-2.2.0.tgz"
-    sha1 "402d7c4841885bb1d23094693f4051900f8f40a8"
+    sha256 "17b9600f6d4c807f23a3f5c45fcd8775ca2e61d6eda70370af2bef4c6e159f58"
   end
 
   # resource "msgpack" do
   #   url "http://pecl.php.net/get/msgpack-0.5.5.tgz"
-  #   sha1 "67c83c359619e8f7f153a83bdf3708c5ff39e491"
+  #   sha256 "67c83c359619e8f7f153a83bdf3708c5ff39e491"
   # end
 
   resource "ssh2" do
     url "http://pecl.php.net/get/ssh2-0.12.tgz"
-    sha1 "b86a25bdd3f3558bbcaaa6d876309fbbb5ae134d"
+    sha256 "600c82d2393acf3642f19914f06a7afea57ee05cb8c10e8a5510b32188b97f99"
   end
 
   resource "xdiff" do
     url "http://pecl.php.net/get/xdiff-1.5.2.tgz"
-    sha1 "5baa9716fc951d2e3f4e8e73b491493f7d3c3c80"
+    sha256 "ebe72b887fcd2296f1e4032d476a8a463803ccfb0b34b403be8433daf3cfd81d"
   end
 
   resource "xhprof" do
     url "http://pecl.php.net/get/xhprof-0.9.4.tgz"
-    sha1 "1dfd36dd6f85accc64060e4b52bf17bc4c85e694"
+    sha256 "002a2d4a825d16aeb3017c59f94d8c5e5d06611dd6197acd2f07fce197d3b8f8"
   end
 
   def config_path
-    etc + "php"
+    etc/"php"
   end
 
   def install
@@ -155,8 +155,8 @@ class Php < Formula
     ENV.deparallelize
     system "make", "install"
 
-    config_path.install "./php.ini-development" => "php.ini" unless File.exist? config_path + "php.ini"
-    config_path.install "sapi/fpm/php-fpm.conf" unless File.exist? config_path + "php-fpm.conf"
+    config_path.install "./php.ini-development" => "php.ini" unless File.exist? config_path + "/php.ini"
+    config_path.install "sapi/fpm/php-fpm.conf" unless File.exist? config_path + "/php-fpm.conf"
   end
 
   test do
