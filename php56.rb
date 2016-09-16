@@ -1,8 +1,8 @@
-class Php < Formula
+class Php56 < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-5.6.23.tar.gz"
-  sha256 "5f2274a13970887e8c81500c2afe292d51c3524d1a06554b0a87c74ce0a24ffe"
+  url "http://php.net/distributions/php-5.6.26.tar.gz"
+  sha256 "f76b6cc23739d9dabf875aee57d91ae73f15e88ddf78803369b8b4728b19b924"
 
   head "https://git.php.net/repository/php-src.git"
 
@@ -17,7 +17,6 @@ class Php < Formula
   depends_on "imagemagick"
   depends_on "imap-uw"
   depends_on "jpeg"
-  depends_on "libiconv"
   depends_on "libmemcached"
   depends_on "libssh2"
   depends_on "libxdiff"
@@ -49,11 +48,6 @@ class Php < Formula
     url "http://pecl.php.net/get/memcached-2.2.0.tgz"
     sha256 "17b9600f6d4c807f23a3f5c45fcd8775ca2e61d6eda70370af2bef4c6e159f58"
   end
-
-  # resource "msgpack" do
-  #   url "http://pecl.php.net/get/msgpack-0.5.5.tgz"
-  #   sha256 "67c83c359619e8f7f153a83bdf3708c5ff39e491"
-  # end
 
   resource "ssh2" do
     url "http://pecl.php.net/get/ssh2-0.12.tgz"
@@ -98,7 +92,6 @@ class Php < Formula
       "--enable-memcached",
       "--enable-memcached-igbinary",
       "--enable-memcached-json",
-      # "--enable-memcached-msgpack",
       "--enable-pcntl",
       "--enable-shmop",
       "--enable-soap",
@@ -115,14 +108,13 @@ class Php < Formula
       "--with-gd",
       "--with-gettext=#{Formula["gettext"].prefix}",
       "--with-gmp",
-      "--with-iconv=#{Formula["libiconv"].prefix}",
+      "--with-iconv-dir=/usr",
       "--with-imagick",
       "--with-jpeg-dir=#{Formula["jpeg"].prefix}",
       "--with-ldap=#{Formula["openldap"].prefix}",
       "--with-ldap-sasl=#{MacOS.sdk_path}/usr",
       "--with-libedit=#{MacOS.sdk_path}/usr",
       "--with-libxml-dir=#{Formula["libxml2"].prefix}",
-      # "--with-msgpack",
       "--with-mysql-sock=/tmp/mysql.sock",
       "--with-mysql=mysqlnd",
       "--with-mysqli=mysqlnd",
@@ -152,8 +144,6 @@ class Php < Formula
     system "./configure", *args
 
     system "make"
-
-    ENV.deparallelize
     system "make", "install"
 
     config_path.install "./php.ini-development" => "php.ini" unless File.exist? config_path + "/php.ini"
