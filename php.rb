@@ -12,6 +12,7 @@ class Php < Formula
   depends_on "curl"
   depends_on "freetype"
   depends_on "gettext"
+  depends_on 'gmp'
   depends_on "icu4c"
   depends_on "imagemagick"
   depends_on "imap-uw"
@@ -22,12 +23,12 @@ class Php < Formula
   depends_on "libxdiff"
   depends_on "libxml2"
   depends_on "libxslt"
+  depends_on "mysql"
   depends_on "net-snmp"
   depends_on "openldap"
   depends_on "openssl"
+  depends_on "postgresql"
   depends_on "zeromq"
-
-  # mysql/pgsql dependencies?
 
   resource "apcu" do
     url "http://pecl.php.net/get/apcu-4.0.6.tgz"
