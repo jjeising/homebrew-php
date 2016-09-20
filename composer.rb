@@ -2,9 +2,8 @@
 class Composer < Formula
   desc "Dependency Manager for PHP"
   homepage "http://getcomposer.org"
-  url "http://getcomposer.org/download/1.0.0-alpha10/composer.phar"
-  version "1.0.0-alpha10"
-  sha256 "9f2c7d0364bc743bcde9cfe1fe84749e5ac38c46d47cf42966ce499135fd4628"
+  url "https://getcomposer.org/download/1.2.1/composer.phar"
+  sha256 "c2e04040b807a8530e5c83de56bdaaf63a0f183f8fd449bbe6e41f660e647427"
 
   def install
     libexec.install "composer.phar"
