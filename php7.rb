@@ -76,7 +76,7 @@ class Php7 < Formula
   end
 
   def config_path
-    etc/"php"
+    etc/"php7"
   end
 
   def install

@@ -65,7 +65,7 @@ class Php56 < Formula
   end
 
   def config_path
-    etc/"php"
+    etc/"php5"
   end
 
   def install
