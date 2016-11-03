@@ -1,8 +1,8 @@
 class Php7 < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-7.0.11.tar.gz"
-  sha256 "02d27b5d140dbad8d400a95af808e1e9ce87aa8d2a2100870734ba26e6700d79"
+  url "http://php.net/distributions/php-7.0.12.tar.gz"
+  sha256 "c4693cc363b4bbc7224294cc94faf3598e616cbe8540dd6975f68c7d3c52682f"
 
   head "https://git.php.net/repository/php-src.git"
 
@@ -17,7 +17,6 @@ class Php7 < Formula
   depends_on "imagemagick"
   depends_on "imap-uw"
   depends_on "jpeg"
-  depends_on "libiconv"
   depends_on "libmemcached"
   depends_on "libssh2"
   depends_on "libxdiff"
@@ -71,7 +70,7 @@ class Php7 < Formula
   # end
 
   resource "xhprof" do
-    url "https://github.com/RustJason/xhprof/archive/f6b73f72f919936c01f08de4f44af04a74fe4ffd.zip"
+    url "https://github.com/RustJason/xhprof/archive/b5728874f866f9567a169ea715ddd1ede752153e.zip"
     sha256 "e139cbbeb3dbe4ca2683ad1f6b99f3bf9c465195d1b8587c128a8c4e08c3520d"
   end
 
@@ -152,7 +151,7 @@ class Php7 < Formula
     end
     
     resource("memcached").stage { (ext/"memcached").install Dir["*"] }
-    resource("xhprof").stage { (ext/"xhprof").install Dir["xhprof*/extension/*"] }
+    resource("xhprof").stage { (ext/"xhprof").install Dir["extension/*"] }
     
     # resource("xhp").stage { (ext/"xhp").install Dir["*"] }
 
