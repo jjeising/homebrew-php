@@ -71,7 +71,7 @@ class Php7 < Formula
 
   resource "xhprof" do
     url "https://github.com/RustJason/xhprof/archive/b5728874f866f9567a169ea715ddd1ede752153e.zip"
-    sha256 "e139cbbeb3dbe4ca2683ad1f6b99f3bf9c465195d1b8587c128a8c4e08c3520d"
+    sha256 "4158593aa502b6fddefcf8bd62b12bc133f9e48f38686201d49ae6c9f618114d"
   end
 
   def config_path
