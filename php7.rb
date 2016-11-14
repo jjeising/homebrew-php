@@ -1,8 +1,8 @@
 class Php7 < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-7.0.12.tar.gz"
-  sha256 "c4693cc363b4bbc7224294cc94faf3598e616cbe8540dd6975f68c7d3c52682f"
+  url "http://php.net/distributions/php-7.0.13.tar.gz"
+  sha256 "c8d8cf1b29e7f7e89be9ee64f453cb7ef6d20e1d13a83cba037bd654ef2da42c"
 
   head "https://git.php.net/repository/php-src.git"
 
