@@ -53,6 +53,11 @@ class Php7 < Formula
     url "http://pecl.php.net/get/msgpack-2.0.1.tgz"
     sha256 "d32aeef9af3be6135a06f29e28ec9f386cde9d90ad346a396d9ba8018a7044c6"
   end
+  
+  resource "php-ast" do
+    url "https://github.com/nikic/php-ast/archive/v0.1.2.tar.gz"
+    sha256 "3c22f06354e249324384497af56635d06666c9d2108f52ba79a86e5807246496"
+  end
 
   resource "ssh2" do
     url "http://pecl.php.net/get/ssh2-1.0.tgz"
@@ -91,6 +96,7 @@ class Php7 < Formula
       "--disable-mbregex",
       
       "--enable-apcu",
+      "--enable-ast",
       "--enable-bcmath",
       "--enable-calendar",
       "--enable-ctype",
@@ -147,10 +153,11 @@ class Php7 < Formula
     ext = Pathname.new(pwd) + "ext/"
 
     resources.each do |r|
-      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless ["memcached", "xhprof"].include?(r.name)
+      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless ["memcached", "php-ast", "xhprof"].include?(r.name)
     end
     
     resource("memcached").stage { (ext/"memcached").install Dir["*"] }
+    resource("php-ast").stage { (ext/"php-ast").install Dir["*"] }
     resource("xhprof").stage { (ext/"xhprof").install Dir["extension/*"] }
     
     # resource("xhp").stage { (ext/"xhp").install Dir["*"] }
