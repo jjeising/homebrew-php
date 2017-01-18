@@ -1,8 +1,8 @@
 class Php7 < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-7.0.13.tar.gz"
-  sha256 "c8d8cf1b29e7f7e89be9ee64f453cb7ef6d20e1d13a83cba037bd654ef2da42c"
+  url "http://php.net/distributions/php-7.0.14.tar.gz"
+  sha256 "320cfd2184e7252d3d77eae5d5474554fa04ab9fbee7c6094c07e8bd3b5b632b"
 
   head "https://git.php.net/repository/php-src.git"
 
@@ -40,8 +40,8 @@ class Php7 < Formula
   # end
 
   resource "imagick" do
-    url "https://pecl.php.net/get/imagick-3.4.3RC1.tgz"
-    sha256 "50bbc46e78cd6e1ea5d7660be1722258e60b1729483ca14b02da7cf9f5ed3e6a"
+    url "https://pecl.php.net/get/imagick-3.4.3RC2.tgz"
+    sha256 "beb00413702d479536a032be34294b6006fe0d8feab5c7d8af3dfa4fc6c370ab"
   end
 
   resource "memcached" do
