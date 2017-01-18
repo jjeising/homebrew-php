@@ -14,7 +14,7 @@ class Php56 < Formula
   depends_on "gettext"
   depends_on 'gmp'
   depends_on "icu4c"
-  depends_on "imagemagick"
+  depends_on "imagemagick@6"
   depends_on "imap-uw"
   depends_on "jpeg"
   depends_on "libmemcached"
@@ -109,7 +109,7 @@ class Php56 < Formula
       "--with-gettext=#{Formula["gettext"].opt_prefix}",
       "--with-gmp",
       "--with-iconv-dir=/usr",
-      "--with-imagick",
+      "--with-imagick=#{Formula['imagemagick@6'].opt_prefix}",
       "--with-imap=#{Formula['imap-uw'].opt_prefix}",
       "--with-imap-ssl=#{Formula["openssl"].opt_prefix}",
       "--with-jpeg-dir=#{Formula["jpeg"].opt_prefix}",
