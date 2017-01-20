@@ -1,8 +1,8 @@
 class Php56 < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-5.6.29.tar.gz"
-  sha256 "0b1b939129a7286c5a474ac2cf845b979477f26dff36639e04022def9e252574"
+  url "http://php.net/distributions/php-5.6.30.tar.gz"
+  sha256 "8bc7d93e4c840df11e3d9855dcad15c1b7134e8acf0cf3b90b932baea2d0bde2"
 
   head "https://git.php.net/repository/php-src.git"
 
