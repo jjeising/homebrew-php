@@ -1,8 +1,8 @@
-class Php7 < Formula
+class Php71Custom < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-7.0.14.tar.gz"
-  sha256 "320cfd2184e7252d3d77eae5d5474554fa04ab9fbee7c6094c07e8bd3b5b632b"
+  url "http://php.net/distributions/php-7.1.6.tar.bz2"
+  sha256 "6e3576ca77672a18461a4b089c5790647f1b2c19f82e4f5e94c962609aabffcf"
 
   head "https://git.php.net/repository/php-src.git"
 
@@ -12,7 +12,7 @@ class Php7 < Formula
   depends_on "curl"
   depends_on "freetype"
   depends_on "gettext"
-  depends_on 'gmp'
+  depends_on "gmp"
   depends_on "icu4c"
   depends_on "imagemagick"
   depends_on "imap-uw"
@@ -34,10 +34,10 @@ class Php7 < Formula
     sha256 "5f4153fe21745a44f1d92431b05a85c0912bb3235110615db84a4a6e84fb6791"
   end
 
-  # resource "igbinary" do
-    # url ""
-    # sha256 "8a0ad1812864764de52af04bbc112b739c3b5ca05e588093f44e8ea7d4074b42"
-  # end
+  resource "igbinary" do
+    url "https://github.com/igbinary/igbinary/archive/2.0.4.tar.gz"
+    sha256 "7b71e60aeada2b9729f55f3552da28375e3c5c66194b2c905af15c3756cf34c8"
+  end
 
   resource "imagick" do
     url "https://pecl.php.net/get/imagick-3.4.3RC2.tgz"
@@ -50,10 +50,10 @@ class Php7 < Formula
   end
 
   resource "msgpack" do
-    url "http://pecl.php.net/get/msgpack-2.0.1.tgz"
-    sha256 "d32aeef9af3be6135a06f29e28ec9f386cde9d90ad346a396d9ba8018a7044c6"
+    url "http://pecl.php.net/get/msgpack-2.0.2.tgz"
+    sha256 "b04980df250214419d9c3d9a5cb2761047ddf5effe5bc1481a19fee209041c01"
   end
-  
+
   resource "php-ast" do
     url "https://github.com/nikic/php-ast/archive/v0.1.2.tar.gz"
     sha256 "3c22f06354e249324384497af56635d06666c9d2108f52ba79a86e5807246496"
@@ -68,19 +68,9 @@ class Php7 < Formula
     url "http://pecl.php.net/get/xdiff-2.0.1.tgz"
     sha256 "b4ac96c33ec28a5471b6498d18c84a6ad0fe2e4e890c93df08e34061fba7d207"
   end
-  
-  # resource "xhp" do
-  #   url "https://github.com/phplang/xhp/archive/master.zip"
-  #   sha256 "146b269d626422600ef75b9cf593dc0c215854dbf8f04466ec8d734eca497ebe"
-  # end
-
-  resource "xhprof" do
-    url "https://github.com/RustJason/xhprof/archive/b5728874f866f9567a169ea715ddd1ede752153e.zip"
-    sha256 "4158593aa502b6fddefcf8bd62b12bc133f9e48f38686201d49ae6c9f618114d"
-  end
 
   def config_path
-    etc/"php7"
+    etc/"php/7.1/"
   end
 
   def install
@@ -91,10 +81,11 @@ class Php7 < Formula
 
       "--sysconfdir=#{config_path}",
       "--with-config-file-path=#{config_path}",
+      "--with-config-file-scan-dir=#{config_path}conf.d/",
 
       "--disable-debug",
       "--disable-mbregex",
-      
+
       "--enable-apcu",
       "--enable-ast",
       "--enable-bcmath",
@@ -103,11 +94,11 @@ class Php7 < Formula
       "--enable-exif",
       "--enable-fpm",
       "--enable-gd-native-ttf",
-      # "--enable-igbinary",
+      "--enable-igbinary",
       "--enable-intl",
       "--enable-mbstring",
       "--enable-memcached",
-      # "--enable-memcached-igbinary",
+      "--enable-memcached-igbinary",
       "--enable-memcached-json",
       "--enable-memcached-msgpack",
       "--enable-pcntl",
@@ -117,8 +108,6 @@ class Php7 < Formula
       "--enable-sysvmsg",
       "--enable-sysvsem",
       "--enable-sysvshm",
-      # "--enable-xhp",
-      "--enable-xhprof",
       "--enable-zend-signals",
       "--enable-zip",
       
@@ -147,20 +136,18 @@ class Php7 < Formula
       "--with-xdiff",
       "--with-xmlrpc",
       "--with-xsl=#{Formula["libxslt"].opt_prefix}",
-      "--with-zlib=#{MacOS.sdk_path}/usr"
+      "--with-zlib=#{MacOS.sdk_path}/usr",
     ]
 
     ext = Pathname.new(pwd) + "ext/"
 
     resources.each do |r|
-      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless ["memcached", "php-ast", "xhprof"].include?(r.name)
+      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless ["igbinary", "memcached", "php-ast"].include?(r.name)
     end
-    
+
+    resource("igbinary").stage { (ext/"igbinary").install Dir["*"] }
     resource("memcached").stage { (ext/"memcached").install Dir["*"] }
     resource("php-ast").stage { (ext/"php-ast").install Dir["*"] }
-    resource("xhprof").stage { (ext/"xhprof").install Dir["extension/*"] }
-    
-    # resource("xhp").stage { (ext/"xhp").install Dir["*"] }
 
     rm "configure"
     system "./buildconf", "--force"

@@ -1,16 +1,16 @@
-class Php7Xdebug < Formula
+class Php71CustomXdebug < Formula
   desc "PHP extension for powerful debugging"
   homepage "http://xdebug.org/"
-  url "http://xdebug.org/files/xdebug-2.4.1.tgz"
-  sha256 "23c8786e0f5aae67b1e5035972bfff282710fb84c483887cebceb8ef5bbdf8ef"
+  url "http://xdebug.org/files/xdebug-2.5.4.tgz"
+  sha256 "300ca6fc3d95025148b0b5d0c96e14e54299e536a93a5d68c67b2cf32c9432b8"
 
   depends_on "autoconf" => :build
-  depends_on "php7" => :build
+  depends_on "php71-custom" => :build
 
   def install
     args = [
       "--prefix=#{prefix}",
-      "--with-php-config=#{(Formula["php7"]).bin}/php-config",
+      "--with-php-config=#{(Formula["php71-custom"]).bin}/php-config",
       "--disable-debug",
       "--disable-dependency-tracking",
       "--enable-xdebug"
