@@ -15,5 +15,5 @@ brew tap jjeising/homebrew-php
 then just install with
 
 ```
-brew install php
+brew install php71-custom
 ```
