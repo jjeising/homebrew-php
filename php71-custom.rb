@@ -1,8 +1,8 @@
 class Php71Custom < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-7.1.6.tar.bz2"
-  sha256 "6e3576ca77672a18461a4b089c5790647f1b2c19f82e4f5e94c962609aabffcf"
+  url "http://php.net/distributions/php-7.1.7.tar.bz2"
+  sha256 "079b6792987f38dc485f92258c04f9e02dedd593f9d260ebe725343f812d1ff8"
 
   head "https://git.php.net/repository/php-src.git"
 
@@ -30,8 +30,8 @@ class Php71Custom < Formula
   depends_on "zeromq"
 
   resource "apcu" do
-    url "http://pecl.php.net/get/apcu-5.1.5.tgz"
-    sha256 "5f4153fe21745a44f1d92431b05a85c0912bb3235110615db84a4a6e84fb6791"
+    url "http://pecl.php.net/get/apcu-5.1.8.tgz"
+    sha256 "01dfbf0245d8cc0f51ba16467a60b5fad08e30b28df7846e0dd213da1143ecce"
   end
 
   resource "igbinary" do
@@ -40,8 +40,8 @@ class Php71Custom < Formula
   end
 
   resource "imagick" do
-    url "https://pecl.php.net/get/imagick-3.4.3RC2.tgz"
-    sha256 "beb00413702d479536a032be34294b6006fe0d8feab5c7d8af3dfa4fc6c370ab"
+    url "https://pecl.php.net/get/imagick-3.4.3.tgz"
+    sha256 "1f3c5b5eeaa02800ad22f506cd100e8889a66b2ec937e192eaaa30d74562567c"
   end
 
   resource "memcached" do
@@ -60,8 +60,8 @@ class Php71Custom < Formula
   end
 
   resource "ssh2" do
-    url "http://pecl.php.net/get/ssh2-1.0.tgz"
-    sha256 "6a93891878b23904a773eb814fec7aea4ea00b4a412ee779c8535ed9c5e46ced"
+    url "http://pecl.php.net/get/ssh2-1.1.1.tgz"
+    sha256 "30963a0a4d9f704d594d875665c1ea297730a6efe2af22dff12a78183907ac0c"
   end
 
   resource "xdiff" do
