@@ -33,12 +33,12 @@ class PhpCustomAT72 < Formula
   needs :cxx11
 
   resource "apcu" do
-    url "http://pecl.php.net/get/apcu-5.1.11.tgz"
+    url "https://pecl.php.net/get/apcu-5.1.11.tgz"
     sha256 "c1096c8c8d0dc75f902b68f699d10bc5056540ed15fb616414ccbfbedca8e95b"
   end
 
   resource "igbinary" do
-    url "http://pecl.php.net/get/igbinary-2.0.5.tgz"
+    url "https://pecl.php.net/get/igbinary-2.0.5.tgz"
     sha256 "526b21f10b08eb9f6e17a6e92b6675348a5049e6d0f5a4ea0a38f24ec3513d34"
   end
 
@@ -48,12 +48,12 @@ class PhpCustomAT72 < Formula
   end
 
   resource "memcached" do
-    url "http://pecl.php.net/get/memcached-3.0.4.tgz"
+    url "https://pecl.php.net/get/memcached-3.0.4.tgz"
     sha256 "561db4c8abdb7c344703a6b7b0ff4f29c2fe0fbacf7b2a2a704d0ed9b1a17d11"
   end
 
   resource "msgpack" do
-    url "http://pecl.php.net/get/msgpack-2.0.2.tgz"
+    url "https://pecl.php.net/get/msgpack-2.0.2.tgz"
     sha256 "b04980df250214419d9c3d9a5cb2761047ddf5effe5bc1481a19fee209041c01"
   end
 
@@ -63,17 +63,17 @@ class PhpCustomAT72 < Formula
   end
 
   resource "ssh2" do
-    url "http://pecl.php.net/get/ssh2-1.1.1.tgz"
+    url "https://pecl.php.net/get/ssh2-1.1.1.tgz"
     sha256 "30963a0a4d9f704d594d875665c1ea297730a6efe2af22dff12a78183907ac0c"
   end
 
   resource "xdebug" do
-    url "http://xdebug.org/files/xdebug-2.6.0.tgz"
+    url "https://xdebug.org/files/xdebug-2.6.0.tgz"
     sha256 "b5264cc03bf68fcbb04b97229f96dca505d7b87ec2fb3bd4249896783d29cbdc"
   end
 
   resource "xdiff" do
-    url "http://pecl.php.net/get/xdiff-2.0.1.tgz"
+    url "https://pecl.php.net/get/xdiff-2.0.1.tgz"
     sha256 "b4ac96c33ec28a5471b6498d18c84a6ad0fe2e4e890c93df08e34061fba7d207"
   end
 
