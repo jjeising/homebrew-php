@@ -1,8 +1,8 @@
-class Php71Custom < Formula
+class PhpCustomAT72 < Formula
   desc "PHP is a popular general-purpose scripting language"
   homepage "http://php.net/"
-  url "http://php.net/distributions/php-7.1.7.tar.bz2"
-  sha256 "079b6792987f38dc485f92258c04f9e02dedd593f9d260ebe725343f812d1ff8"
+  url "http://php.net/distributions/php-7.2.5.tar.bz2"
+  sha256 "f3820efa8efa79628b6e1b5b2f8c1b04c08d32e6721fa1654039ce5f89796031"
 
   head "https://git.php.net/repository/php-src.git"
 
@@ -28,15 +28,18 @@ class Php71Custom < Formula
   depends_on "openssl"
   depends_on "postgresql"
   depends_on "zeromq"
+  
+  # needed for icu4c/php-intl
+  needs :cxx11
 
   resource "apcu" do
-    url "http://pecl.php.net/get/apcu-5.1.8.tgz"
-    sha256 "01dfbf0245d8cc0f51ba16467a60b5fad08e30b28df7846e0dd213da1143ecce"
+    url "http://pecl.php.net/get/apcu-5.1.11.tgz"
+    sha256 "c1096c8c8d0dc75f902b68f699d10bc5056540ed15fb616414ccbfbedca8e95b"
   end
 
   resource "igbinary" do
-    url "https://github.com/igbinary/igbinary/archive/2.0.4.tar.gz"
-    sha256 "7b71e60aeada2b9729f55f3552da28375e3c5c66194b2c905af15c3756cf34c8"
+    url "http://pecl.php.net/get/igbinary-2.0.5.tgz"
+    sha256 "526b21f10b08eb9f6e17a6e92b6675348a5049e6d0f5a4ea0a38f24ec3513d34"
   end
 
   resource "imagick" do
@@ -45,8 +48,8 @@ class Php71Custom < Formula
   end
 
   resource "memcached" do
-    url "https://github.com/php-memcached-dev/php-memcached/archive/583ecd68faec886ac9233277531f78fb6e2043c7.zip"
-    sha256 "165c43b3d3b7d8da7df0ebbe0551d1a5ac6417e254ed2d86cb9d9b79815ecaf1"
+    url "http://pecl.php.net/get/memcached-3.0.4.tgz"
+    sha256 "561db4c8abdb7c344703a6b7b0ff4f29c2fe0fbacf7b2a2a704d0ed9b1a17d11"
   end
 
   resource "msgpack" do
@@ -55,13 +58,18 @@ class Php71Custom < Formula
   end
 
   resource "php-ast" do
-    url "https://github.com/nikic/php-ast/archive/v0.1.2.tar.gz"
-    sha256 "3c22f06354e249324384497af56635d06666c9d2108f52ba79a86e5807246496"
+    url "https://github.com/nikic/php-ast/archive/v0.1.6.tar.gz"
+    sha256 "a6b8d13f0c2e5afa5a998f087e41bb912996a1dd5542def3beb85ea3eba61512"
   end
 
   resource "ssh2" do
     url "http://pecl.php.net/get/ssh2-1.1.1.tgz"
     sha256 "30963a0a4d9f704d594d875665c1ea297730a6efe2af22dff12a78183907ac0c"
+  end
+
+  resource "xdebug" do
+    url "http://xdebug.org/files/xdebug-2.6.0.tgz"
+    sha256 "b5264cc03bf68fcbb04b97229f96dca505d7b87ec2fb3bd4249896783d29cbdc"
   end
 
   resource "xdiff" do
@@ -70,7 +78,7 @@ class Php71Custom < Formula
   end
 
   def config_path
-    etc/"php/7.1/"
+    etc/"php/7.2/"
   end
 
   def install
@@ -110,7 +118,7 @@ class Php71Custom < Formula
       "--enable-sysvshm",
       "--enable-zend-signals",
       "--enable-zip",
-      
+
       "--with-bz2=#{MacOS.sdk_path}/usr",
       "--with-curl=#{Formula["curl"].opt_prefix}",
       "--with-freetype-dir=#{Formula["freetype"].opt_prefix}",
@@ -129,7 +137,7 @@ class Php71Custom < Formula
       "--with-mysqli=mysqlnd",
       "--with-openssl=#{Formula["openssl"].opt_prefix}",
       "--with-pdo-mysql=mysqlnd",
-      "--with-pdo-pgsql",
+      "--with-pdo-pgsql=#{Formula["postgresql"].opt_prefix}",
       "--with-png-dir=#{MacOS.sdk_path}/usr",
       "--with-snmp=#{Formula["net-snmp"].opt_prefix}",
       "--with-ssh2",
@@ -142,12 +150,13 @@ class Php71Custom < Formula
     ext = Pathname.new(pwd) + "ext/"
 
     resources.each do |r|
-      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless ["igbinary", "memcached", "php-ast"].include?(r.name)
+      r.stage { (ext/r.name).install Dir["#{r.name}*/*"] } unless ["php-ast", "xdebug"].include?(r.name)
     end
 
-    resource("igbinary").stage { (ext/"igbinary").install Dir["*"] }
-    resource("memcached").stage { (ext/"memcached").install Dir["*"] }
     resource("php-ast").stage { (ext/"php-ast").install Dir["*"] }
+
+    ENV.cxx11
+    ENV.append "CPPFLAGS", "-DU_USING_ICU_NAMESPACE=1"
 
     rm "configure"
     system "./buildconf", "--force"
@@ -159,11 +168,25 @@ class Php71Custom < Formula
 
     config_path.install "./php.ini-development" => "php.ini" unless File.exist? config_path + "/php.ini"
     config_path.install "sapi/fpm/php-fpm.conf" unless File.exist? config_path + "/php-fpm.conf"
+
+    resource("xdebug").stage do |r|
+      chdir "xdebug-#{r.version}" do
+        system "phpize"
+        system "./configure", *[
+          "--prefix=#{prefix}",
+          "--with-php-config=#{bin}/php-config",
+          "--disable-debug",
+          "--disable-dependency-tracking",
+          "--enable-xdebug"
+        ]
+        system "make", "install"
+      end
+    end
   end
 
   plist_options :startup => true
 
-  def plist; <<-EOS.undent
+  def plist; <<-EOS
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
     <plist version="1.0">
